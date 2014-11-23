@@ -17,7 +17,7 @@ int main()
 
     std::unordered_map<u16, u16> codes;
     // Get all the codes
-    for (u16 i = 0; i < 0xFFFF; ++i)
+    for (u16 i = 0; i < 0xBB; ++i)
     {
         u16 string;
         Result ret = CFGU_GetCountryCodeString(i, &string);
