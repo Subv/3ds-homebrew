@@ -25,10 +25,22 @@ int main()
             codes[i] = string;
     }
     
+    // Check the result code for an out of bounds query, result: 3640722426
+    u16 dummy;
+    Result outOfBoundsResult = CFGU_GetCountryCodeString(0xBB, &dummy);
+    // Check the result for an invalid country code query, result: 3640722426
+    Result invalidQueryResult = CFGU_GetCountryCodeString(0, &dummy);
+    
+    
     FILE* f = fopen("sdmc:/region_codes.txt", "w");
     bool correct = false;
     if (f)
     {
+        std::stringstream ss;
+        ss << "Result of an out of bounds query: " << (u32)outOfBoundsResult << "\n";
+        ss << "Result of an invalid query: " << (u32)invalidQueryResult << "\n";
+        fwrite(ss.str().c_str(), ss.str().size(), 1, f);
+        
         correct = true;
         for (auto itr : codes)
         {
