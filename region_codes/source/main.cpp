@@ -31,6 +31,8 @@ int main()
     // Check the result for an invalid country code query, result: 3640722426
     Result invalidQueryResult = CFGU_GetCountryCodeString(0, &dummy);
     
+    // Check the result code for an invalid country string, result: 3640722426
+    Result invalidCountryResult = CFGU_GetCountryCodeID(0, &dummy);
     
     FILE* f = fopen("sdmc:/region_codes.txt", "w");
     bool correct = false;
@@ -39,6 +41,7 @@ int main()
         std::stringstream ss;
         ss << "Result of an out of bounds query: " << (u32)outOfBoundsResult << "\n";
         ss << "Result of an invalid query: " << (u32)invalidQueryResult << "\n";
+        ss << "Result of an invalid country string: " << (u32)invalidCountryResult << "\n";
         fwrite(ss.str().c_str(), ss.str().size(), 1, f);
         
         correct = true;
