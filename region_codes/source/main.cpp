@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <cstdio>
+#include <cstring>
 
 int main()
 {
