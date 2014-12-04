@@ -34,6 +34,8 @@ int main()
         thread_results[i] = svcCreateThread(&thread[i], cmd_thread_func, 0x0,
                                             (u32*)(threadstack[i]+0x40),
                                             0x20, 0xFFFFFFFE);
+        svcSignalEvent(Forever);
+        svcCloseHandle(thread_results[i]);
     }
     
     u32 id[NUM_THREADS];
