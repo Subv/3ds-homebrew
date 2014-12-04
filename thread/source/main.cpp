@@ -2,9 +2,9 @@
 #include <string.h>
 #include <sstream>
 #include <cstdio>
+#define NUM_THREADS 8
 
-u8 threadstack[0x40] __attribute__((aligned(8)));
-u8 threadstack2[0x40] __attribute__((aligned(8)));
+u8 threadstack[NUM_THREADS][0x40] __attribute__((aligned(8)));
 Handle Forever;
 
 void cmd_thread_func(u32) {
@@ -26,32 +26,36 @@ int main()
     
     svcCreateEvent(&Forever, 0); 
     
-    Handle thread;
-    Handle thread2;
+    Handle thread[NUM_THREADS];
+    Result thread_results[NUM_THREADS];
     
-    // Create 2 threads
-    Result tr1 = svcCreateThread(&thread, cmd_thread_func, 0x0,
-                    (u32*)(threadstack+0x40),
-                    0x20, 0xFFFFFFFE);
-                    
-    Result tr2 = svcCreateThread(&thread2, cmd_thread_func, 0x0,
-                    (u32*)(threadstack2+0x40),
-                    0x19, 0xFFFFFFFE);
+    // Create 8 threads
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        thread_results[i] = svcCreateThread(&thread[i], cmd_thread_func, 0x0,
+                                            (u32*)(threadstack[i]+0x40),
+                                            0x20, 0xFFFFFFFE);
+    }
     
-    u32 id, id2, id3;
-    Result r = svcGetThreadId(&id, thread);
-    Result r2 = svcGetThreadId(&id2, thread2);
+    u32 id[NUM_THREADS];
+    Result id_results[NUM_THREADS];
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        id_results[i] = svcGetThreadId(&id[i], thread[i]);
+    }
+    
     
     // Use an invalid thread id
+    u32 id3;
     Result r3 = svcGetThreadId(&id3, 0);
     
     FILE* f = fopen("sdmc:/thread_output.txt", "w");
     if (f)
     {
         std::stringstream ss;
-        ss << "Thread handle 1: " << (u32)thread << " Creation result: " << (u32)tr1 << " Id: " << id << " Result: " << (u32)r << "\n";
-        ss << "Thread handle 2: " << (u32)thread2 << " Creation result: " << (u32)tr2 << " Id: " << id2 << " Result: " << (u32)r2 << "\n";
-        ss << "Thread handle 3: 0 Id: " << id3 << " Result: " << (u32)r3 << "\n";
+        for (int i = 0; i < NUM_THREADS; ++i) {
+            ss << "Thread handle 1: " << std::hex << (u32)thread[i] << " Creation result: " << (u32)thread_results[i] << " Id: " << id[i] << " Result: " << (u32)id_results[i] << "\n";
+        }
+        
+        ss << "Thread handle Invalid: 0 Id: " << id3 << " Result: " << (u32)r3 << "\n";
         fwrite(ss.str().c_str(), ss.str().size(), 1, f);
         fclose(f);
     }
@@ -71,7 +75,7 @@ int main()
         
 		fb[3*(10+10*240)] = 0xFF;
         // Check if both thread ids match the thread handle. Result: They don't
-        if (r == 0 && r2 == 0 && (Handle)id == thread && (Handle)id2 == thread2)
+        if (thread_results[0] == 0 && thread_results[1] == 0 && (Handle)id[0] == thread[0] && (Handle)id[1] == thread[1])
         {
             fb[3*(10+10*240)+1] = 0xFF;
             fb[3*(10+10*240)+2] = 0xFF;
