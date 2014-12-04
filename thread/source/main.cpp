@@ -3,8 +3,8 @@
 #include <sstream>
 #include <cstdio>
 
-u8 threadstack[0x4000] __attribute__((aligned(8)));
-u8 threadstack2[0x4000] __attribute__((aligned(8)));
+u8 threadstack[0x40] __attribute__((aligned(8)));
+u8 threadstack2[0x40] __attribute__((aligned(8)));
 Handle Forever;
 
 void cmd_thread_func(u32) {
@@ -31,12 +31,12 @@ int main()
     
     // Create 2 threads
     Result tr1 = svcCreateThread(&thread, cmd_thread_func, 0x0,
-                    (u32*)(threadstack+0x4000),
-                    0x18, 1);
+                    (u32*)(threadstack+0x40),
+                    0x20, 0xFFFFFFFE);
                     
     Result tr2 = svcCreateThread(&thread2, cmd_thread_func, 0x0,
-                    (u32*)(threadstack2+0x4000),
-                    0x18, 1);
+                    (u32*)(threadstack2+0x40),
+                    0x19, 0xFFFFFFFE);
     
     u32 id, id2, id3;
     Result r = svcGetThreadId(&id, thread);
@@ -87,6 +87,9 @@ int main()
 		gfxSwapBuffers();
 	}
 
+    svcSignalEvent(Forever);
+    svcClearEvent(Forever);
+    
 	// Exit services
     sdmcExit();
     fsExit();
