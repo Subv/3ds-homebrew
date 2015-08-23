@@ -200,7 +200,7 @@ int main(int argc, char** argv)
             printf("ERROR\n");
         
         // Draw the first triangle of the first quad
-        GPU_DrawElements(GPU_TRIANGLE_STRIP, (u32*)(osConvertVirtToPhys((u32)test_data3) - osConvertVirtToPhys((u32)test_data2)), 6);
+        GPU_DrawElements(GPU_UNKPRIM, (u32*)(osConvertVirtToPhys((u32)test_data3) - osConvertVirtToPhys((u32)test_data2)), 6);
 
         gpuEndFrame();
     } while(aptMainLoop());
