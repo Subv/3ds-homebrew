@@ -149,7 +149,7 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 15, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
@@ -197,13 +197,13 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 6, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Invert the value of the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 5); // GPU_INVERT
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 5); // GPU_INVERT
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -251,13 +251,13 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 6, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Increment the value of the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 3); // GPU_INCR
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 3); // GPU_INCR
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -305,14 +305,14 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 255, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Increment the value of the stencil buffer where the green square is drawn
 		// This should not do anything, as 255 + 1 is 255 when doing a saturated increment
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 3); // GPU_INCR
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 3); // GPU_INCR
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -360,13 +360,13 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 6, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Decrement the value of the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 4); // GPU_DECR
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 4); // GPU_DECR
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -414,14 +414,14 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 0, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Decrement the value of the stencil buffer where the green square is drawn
 		// This should not do anything, as 0 - 1 is 0 when doing a saturated decrement
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 4); // GPU_DECR
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 4); // GPU_DECR
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -468,13 +468,13 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 15, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Set the value of the stencil buffer to 0 where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 1); // GPU_ZERO
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 1); // GPU_ZERO
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -522,13 +522,13 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 30, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Increment the value of the stencil buffer where the green square is drawn.
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 6); // GPU_INCR_WRAP
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 6); // GPU_INCR_WRAP
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -576,14 +576,14 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 255, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Increment the value of the stencil buffer where the green square is drawn.
 		// This will cause it to wrap around to 0 (255 + 1 = 0)
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 6); // GPU_INCR_WRAP
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 6); // GPU_INCR_WRAP
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -631,13 +631,13 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 30, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Decrement the value of the stencil buffer where the green square is drawn.
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 7); // GPU_DECR_WRAP
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 7); // GPU_DECR_WRAP
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -685,14 +685,14 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 0, 0xFF, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
 		
 		// Decrement the value of the stencil buffer where the green square is drawn.
 		// This will cause it to wrap around to 255 (0 - 1 = 255)
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 7); // GPU_DECR_WRAP
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 7); // GPU_DECR_WRAP
 		
 		// Redraw the green square to update the stencil buffer
         DrawSmallSquare();
@@ -741,7 +741,7 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 15, 0xFF, 0x3);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
@@ -792,7 +792,7 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 1, 0xFF, 0xFF);
 		
 		// Write 1 to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();
@@ -839,7 +839,7 @@ int main(int argc, char** argv)
 		GPU_SetStencilTest(true, GPU_ALWAYS, 15, 0x7, 0xFF);
 		
 		// Write the reference value to the stencil buffer where the green square is drawn
-		GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, 2); // GPU_REPLACE
+		GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, 2); // GPU_REPLACE
 		
 		// Draw the green square
         DrawSmallSquare();

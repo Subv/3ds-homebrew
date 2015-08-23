@@ -57,7 +57,7 @@ void gpuDisableEverything()
     GPU_SetFaceCulling(GPU_CULL_NONE);
     //No stencil test
     GPU_SetStencilTest(false, GPU_ALWAYS, 0x00, 0xFF, 0x00);
-    GPU_SetStencilOp(GPU_KEEP, GPU_KEEP, GPU_KEEP);
+    GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, GPU_STENCIL_KEEP);
     //No blending color
     GPU_SetBlendingColor(0,0,0,0);
     //Fake disable AB. We just ignore the Blending part
