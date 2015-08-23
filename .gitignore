@@ -1,0 +1,11 @@
+build*
+CMakeLists.txt
+DevkitPro3DS.cmake
+gpuTestReport.txt
+*.3dsx
+*.elf
+*.smdh
+notes.txt
+~*
+.idea
+tests.xlsx
