@@ -4,10 +4,15 @@
 .fvec projection[4]
 
 ; Constants
-.constf myconst(0.0, 1.0, -1.0, 0.1)
-.constf myconst2(0.3, 0.0, 0.0, 0.0)
+.constf myconst(0.0, 1.0, 0.0, 1.0)
+.constf myconst2(1.0, 0.0, 5.0, 1.0)
+
 .alias  zeros myconst.xxxx ; Vector full of zeros
 .alias  ones  myconst.yyyy ; Vector full of ones
+.alias cols myconst2.xyzw
+.alias red myconst.yxxy
+.alias green myconst.xyxy
+.alias blue myconst.xxyy
 
 ; Outputs
 .out outpos position
@@ -15,7 +20,8 @@
 
 ; Inputs (defined as aliases for convenience)
 .alias inpos v0
-.alias inclr v1
+.alias vertex_color v1
+.alias inclr v2
 
 .bool test
 
@@ -24,15 +30,14 @@
     mov r0.xyz, inpos
     mov r0.w,   ones
 
+    mov r2, vertex_color
+
     ; outpos = projectionMatrix * inpos
     dp4 outpos.x, projection[0], r0
     dp4 outpos.y, projection[1], r0
     dp4 outpos.z, projection[2], r0
     dp4 outpos.w, projection[3], r0
-
-    mov r2, inclr
     
-    ; outclr = inclr
     mov outclr, inclr
 
     ; We're finished

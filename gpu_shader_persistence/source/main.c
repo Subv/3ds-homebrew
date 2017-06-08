@@ -12,13 +12,17 @@
     GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGB8) | \
     GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
 
-typedef struct { float x, y, z; } vertex;
+typedef struct { float x, y, z; float c[4]; } vertex;
 
 static const vertex vertex_list[] =
 {
-    { 200.0f, 200.0f, 0.5f },
-    { 100.0f, 40.0f, 0.5f },
-    { 300.0f, 40.0f, 0.5f },
+    { 100.0f, 100.0f, 0.5f, {1.0f, 0.0f, 0.0f, 1.0f} },
+    { 50.0f, 20.0f, 0.5f, {0.0f, 1.0f, 0.0f, 1.0f} },
+    { 150.0f, 20.0f, 0.5f, {0.0f, 0.0f, 1.0f, 1.0f} },
+
+    /*{ 300.0f, 250.0f, 0.5f },
+    { 150.0f, 60.0f, 0.5f },
+    { 450.0f, 60.0f, 0.5f },*/
 };
 
 #define vertex_list_count (sizeof(vertex_list)/sizeof(vertex_list[0]))
@@ -45,10 +49,11 @@ static void sceneInit(void)
     C3D_AttrInfo* attrInfo = C3D_GetAttrInfo();
     AttrInfo_Init(attrInfo);
     AttrInfo_AddLoader(attrInfo, 0, GPU_FLOAT, 3); // v0=position
-    AttrInfo_AddFixed(attrInfo, 1); // v1=color
+    AttrInfo_AddLoader(attrInfo, 1, GPU_FLOAT, 4); // v1=use_color
+    AttrInfo_AddFixed(attrInfo, 2); // v2=color
 
-    // Set the fixed attribute (color) to solid red
-    C3D_FixedAttribSet(1, 1.0, 0.0, 0.0, 1.0);
+    // Set the fixed attribute (color) to solid green
+    C3D_FixedAttribSet(2, 0.0, 1.0, 0.0, 1.0);
 
     // Compute the projection matrix
     Mtx_OrthoTilt(&projection1, 0.0, 400.0, 0.0, 240.0, 0.0, 1.0, true);
@@ -60,7 +65,7 @@ static void sceneInit(void)
     // Configure buffers
     C3D_BufInfo* bufInfo = C3D_GetBufInfo();
     BufInfo_Init(bufInfo);
-    BufInfo_Add(bufInfo, vbo_data1, sizeof(vertex), 1, 0x0);
+    BufInfo_Add(bufInfo, vbo_data1, sizeof(vertex), 2, 0x10);
 
     // Configure the first fragment shading substage to just pass through the vertex color
     // See https://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml for more insight
@@ -101,10 +106,11 @@ static void sceneInit2(void)
     C3D_AttrInfo* attrInfo = C3D_GetAttrInfo();
     AttrInfo_Init(attrInfo);
     AttrInfo_AddLoader(attrInfo, 0, GPU_FLOAT, 3); // v0=position
-    AttrInfo_AddFixed(attrInfo, 1); // v1=color
+    AttrInfo_AddLoader(attrInfo, 1, GPU_FLOAT, 4); // v1=use_color
+    AttrInfo_AddFixed(attrInfo, 2); // v2=color
 
     // Set the fixed attribute (color) to solid red
-    C3D_FixedAttribSet(1, 1.0, 0.0, 0.0, 1.0);
+    C3D_FixedAttribSet(2, 1.0, 0.0, 0.0, 1.0);
 
     // Compute the projection matrix
     Mtx_OrthoTilt(&projection2, 0.0, 400.0, 0.0, 240.0, 0.0, 1.0, true);
@@ -116,7 +122,7 @@ static void sceneInit2(void)
     // Configure buffers
     C3D_BufInfo* bufInfo = C3D_GetBufInfo();
     BufInfo_Init(bufInfo);
-    BufInfo_Add(bufInfo, vbo_data2, sizeof(vertex), 1, 0x0);
+    BufInfo_Add(bufInfo, vbo_data2, sizeof(vertex), 2, 0x10);
 
     // Configure the first fragment shading substage to just pass through the vertex color
     // See https://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml for more insight
@@ -164,6 +170,11 @@ int main()
     // Initialize the scene
     sceneInit();
 
+    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+        C3D_FrameDrawOn(target);
+        sceneRender1();
+    C3D_FrameEnd(0);
+
     // Main loop
     while (aptMainLoop())
     {
@@ -178,23 +189,29 @@ int main()
         printf("Press START to go to the next draw");
 
         // Render the scene
-        C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+        /*C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
             C3D_FrameDrawOn(target);
             sceneRender1();
         C3D_FrameEnd(0);
+
+        while (true) {
+            hidScanInput();
+
+            u32 fkDown = hidKeysDown();
+            if (fkDown & KEY_A)
+                break; // break in order to return to loop
+        }
+
+        // Respond to user input
+        u32 kDown = hidKeysDown();
+        if (kDown & KEY_START)
+            break; // break in order to return to hbmenu*/
     }
 
     sceneInit2();
 
     while (aptMainLoop())
     {
-        hidScanInput();
-
-        // Respond to user input
-        u32 kDown = hidKeysDown();
-        if (kDown & KEY_START)
-            break; // break in order to return to hbmenu
-
         consoleClear();
         printf("Press START to exit");
 
@@ -203,6 +220,19 @@ int main()
             C3D_FrameDrawOn(target);
             sceneRender2();
         C3D_FrameEnd(0);
+
+        while (true) {
+            hidScanInput();
+
+            u32 fkDown = hidKeysDown();
+            if (fkDown & KEY_A)
+                break; // break in order to return to loop
+        }
+
+        // Respond to user input
+        u32 kDown = hidKeysDown();
+        if (kDown & KEY_START)
+            break; // break in order to return to hbmenu
     }
 
     // Deinitialize the scene
